@@ -1,0 +1,279 @@
+<html xmlns:o='urn:schemas-microsoft-com:office:office' xmlns:w='urn:schemas-microsoft-com:office:word' xmlns='http://www.w3.org/TR/REC-html40'>
+<head>
+<meta charset="utf-8">
+<title>Keeption Vault Documentation</title>
+<!--[if gte mso 9]>
+<xml>
+<w:WordDocument>
+<w:View>Print</w:View>
+<w:Zoom>100</w:Zoom>
+<w:DoNotOptimizeForBrowser/>
+</w:WordDocument>
+</xml>
+<![endif]-->
+<style>
+body {
+    font-family: 'Calibri', 'Arial', sans-serif;
+    font-size: 11pt;
+    line-height: 1.5;
+    margin: 1in;
+    color: #333333;
+}
+h1 {
+    font-family: 'Calibri Light', 'Arial', sans-serif;
+    font-size: 22pt;
+    color: #1F497D;
+    border-bottom: 2px solid #1F497D;
+    padding-bottom: 4px;
+    margin-top: 24pt;
+    margin-bottom: 12pt;
+}
+h2 {
+    font-family: 'Calibri Light', 'Arial', sans-serif;
+    font-size: 16pt;
+    color: #595959;
+    margin-top: 18pt;
+    margin-bottom: 8pt;
+    border-bottom: 1px solid #d3d3d3;
+    padding-bottom: 2px;
+}
+h3 {
+    font-family: 'Calibri', 'Arial', sans-serif;
+    font-size: 13pt;
+    color: #595959;
+    margin-top: 14pt;
+    margin-bottom: 6pt;
+    font-weight: bold;
+}
+p {
+    margin-top: 0;
+    margin-bottom: 8pt;
+    text-align: justify;
+}
+ul, ol {
+    margin-top: 0;
+    margin-bottom: 8pt;
+    padding-left: 24pt;
+}
+li {
+    margin-bottom: 4pt;
+}
+table {
+    border-collapse: collapse;
+    width: 100%;
+    margin-top: 12pt;
+    margin-bottom: 12pt;
+}
+th {
+    background-color: #1F497D;
+    color: #ffffff;
+    font-weight: bold;
+    border: 1px solid #a0a0a0;
+    padding: 8px;
+    text-align: left;
+    font-size: 10.5pt;
+}
+td {
+    border: 1px solid #d3d3d3;
+    padding: 8px;
+    text-align: left;
+    font-size: 10.5pt;
+}
+tr:nth-child(even) {
+    background-color: #F9FBFD;
+}
+code {
+    font-family: 'Consolas', 'Courier New', monospace;
+    font-size: 10pt;
+    background-color: #F5F5F5;
+    padding: 2px 4px;
+    border: 1px solid #e0e0e0;
+    border-radius: 3px;
+}
+pre {
+    font-family: 'Consolas', 'Courier New', monospace;
+    font-size: 9.5pt;
+    background-color: #F5F5F5;
+    padding: 12px;
+    border: 1px solid #e0e0e0;
+    border-radius: 4px;
+    margin-top: 12pt;
+    margin-bottom: 12pt;
+    white-space: pre-wrap;
+    word-break: break-all;
+}
+.student-info {
+    border: 2px solid #1F497D;
+    padding: 16px;
+    background-color: #F2F5F9;
+    margin-top: 18pt;
+    margin-bottom: 24pt;
+    border-radius: 4px;
+}
+.student-info table {
+    margin: 0;
+    border: none;
+}
+.student-info td {
+    border: none;
+    padding: 4px 8px;
+    background-color: transparent !important;
+    font-size: 11pt;
+}
+.student-info td.label {
+    font-weight: bold;
+    color: #1F497D;
+    width: 150px;
+}
+.title-container {
+    text-align: center;
+    margin-bottom: 30pt;
+}
+.title-container h1 {
+    border-bottom: none;
+    margin-bottom: 6pt;
+    color: #1F497D;
+    font-size: 26pt;
+}
+.subtitle {
+    font-size: 14pt;
+    color: #595959;
+    margin-bottom: 24pt;
+}
+</style>
+</head>
+<body>
+
+<div class="title-container">
+    <h1>Project Title: Keeption Vault — Secure, Encrypted Cloud Storage System</h1>
+    <div class="subtitle">Academic Project Documentation</div>
+</div>
+
+<div class="student-info">
+    <table>
+        <tr>
+            <td class="label">Student Name:</td>
+            <td>KINGSLEY OSEH KELVIN</td>
+        </tr>
+        <tr>
+            <td class="label">Student ID:</td>
+            <td>LCSMT-NGA-005-ADM-1001523</td>
+        </tr>
+        <tr>
+            <td class="label">Semester:</td>
+            <td>Semester 4</td>
+        </tr>
+        <tr>
+            <td class="label">Department:</td>
+            <td>Computer Science Engineering</td>
+        </tr>
+    </table>
+</div>
+
+<h1>1. Introduction</h1>
+<p>
+    <strong>Keeption Vault</strong> is a secure, responsive, and privacy-focused web-based cloud storage application. Designed on "zero-knowledge" principles, the application ensures that users retain complete sovereignty and ownership over their digital assets. Users can upload various file formats—such as images, videos, audio, and documents—while having full control over access parameters, revision history, and team sharing. 
+</p>
+<p>
+    By leveraging the robust <strong>Laravel 11</strong> PHP framework, <strong>MySQL</strong> for relational database management, and modern frontend tools like <strong>Tailwind CSS</strong> and <strong>Vite</strong>, Keeption Vault provides a glassmorphic user interface that balances premium visual aesthetics with security features. These features include single-use self-destructing links, password-protected tokens, multi-user workspace management, and enterprise-grade audit logging.
+</p>
+
+<h1>2. Problem Statement</h1>
+<p>
+    The cloud storage market is currently dominated by centralized platforms (e.g., Google Drive, Dropbox, and OneDrive). While convenient, these platforms present significant privacy and security challenges:
+</p>
+<ul>
+    <li><strong>Surveillance Capitalism & Data Mining:</strong> Major services scan user files for advertising profiles and algorithmic training data without explicit, granular user consent.</li>
+    <li><strong>Security Vulnerabilities:</strong> High-value centralized databases are primary targets for malicious actors. If a server is compromised, user data is exposed in plain text.</li>
+    <li><strong>Coarse Sharing Controls:</strong> Sharing links on standard platforms generally lacks advanced security measures like rate-limited password walls, self-destruct timers, and dynamic watermarking, leading to accidental leaks of sensitive files.</li>
+    <li><strong>Complex Team Audits:</strong> Small businesses and teams lack lightweight, auditable, and transparent platforms to review who accessed or modified their files.</li>
+</ul>
+
+<h1>3. Objectives</h1>
+<p>
+    The main objectives of the Keeption Vault project are:
+</p>
+<ul>
+    <li><strong>Establish Absolute Privacy:</strong> Implement security measures where filenames and structure are decoupled from original metadata using UUID storage on disk.</li>
+    <li><strong>Support File Lifecycle Management:</strong> Allow users to upload, categorize, rename, structure, search, and delete files inside recursively managed folders.</li>
+    <li><strong>Implement Intelligent Version Control:</strong> Prevent data loss by storing previous file versions when overwriting, and allow users to restore historical revisions within a plan-based time window.</li>
+    <li><strong>Develop Secure Link Sharing:</strong> Implement dynamic, tokenized share links featuring password verification, expiration rules, download restrictions, and access limiters.</li>
+    <li><strong>Provide Collaborative Team Workspaces:</strong> Facilitate multi-tenant workspaces with role-based access control (Admin, Editor, Viewer) and shared folder views.</li>
+    <li><strong>Generate Traceable Activity Audits:</strong> Record every file action (IP addresses, devices, actions) and allow administrators to export these logs to CSV format.</li>
+</ul>
+
+<h1>4. Methodology</h1>
+<p>
+    The development of Keeption Vault followed the <strong>Agile Software Development Life Cycle (SDLC)</strong>, focusing on iterative design, rapid prototyping, and automated verification.
+</p>
+<h3>Development Phases:</h3>
+<ol>
+    <li><strong>Requirements Analysis:</strong> Identified target user plans (Free, Pro, Teams) and mapped their storage capacity and version history window constraints.</li>
+    <li><strong>System & Database Design:</strong> Modeled database entities to track users, files, folders, share codes, team members, and audit entries.</li>
+    <li><strong>Iterative Development:</strong>
+        <ul>
+            <li>Developed backend business logic in Laravel (PHP 8.2).</li>
+            <li>Crafted responsive views utilizing Laravel Blade templating and Tailwind CSS v4.</li>
+            <li>Configured file system streams to process uploads efficiently.</li>
+        </ul>
+    </li>
+    <li><strong>Integration of Services:</strong> Integrated the <strong>Resend API</strong> for secure, transactional HTML share invitations.</li>
+    <li><strong>Testing & Validation:</strong> Wrote automated Unit and Feature test suites to verify system stability.</li>
+</ol>
+
+<h1>5. System Design</h1>
+<p>
+    Keeption Vault is built on a Model-View-Controller (MVC) architecture, utilizing local disk storage and secure session states.
+</p>
+
+<h2>5.1 Architecture Overview</h2>
+<p>
+    The system interfaces via standard HTTPS requests routed through the Laravel 11 web container. The controllers execute logic, interface with the MySQL database using the Eloquent ORM, and write files to local disk using PHP stream wrappers. Transactional emails are handled securely via SMTP endpoints.
+</p>
+
+<h2>5.2 Database Schema</h2>
+<p>
+    The MySQL database consists of 8 interconnected tables:
+</p>
+<ol>
+    <li><strong>users:</strong> Manages credentials, current subscription plans, and custom workspace names.</li>
+    <li><strong>folders:</strong> Stores folder structures, page routing, and team visibility settings.</li>
+    <li><strong>files:</strong> Contains metadata, storage path, category classification, and reference folder IDs.</li>
+    <li><strong>file_versions:</strong> Stores physical files of older revisions before they are overwritten.</li>
+    <li><strong>share_codes:</strong> Manages secure tokenized sharing configurations (password, expiry, download limits).</li>
+    <li><strong>share_code_uses:</strong> Records analytics for shared link visitors (IP address, browser, device, download flag).</li>
+    <li><strong>team_members:</strong> Manages workspace invitations and access roles (Admin, Editor, Viewer).</li>
+    <li><strong>audit_logs:</strong> Logs user activities for compliance and security reviews.</li>
+</ol>
+
+<h1>6. Implementation Details</h1>
+
+<h2>6.1 Backend Logic (Controllers)</h2>
+<ul>
+    <li><strong>FileController:</strong> Implements size validation against user subscription limits (e.g., 500MB for Free, 10GB for Pro, 50GB for Teams). File uploads are streamed directly to the local disk, renaming files to unique UUIDs to prevent directory clashes. It handles folder generation, folder deletion (recursive), and file restoration from the version history table.</li>
+    <li><strong>ShareCodeController:</strong> Generates unique alphanumeric share tokens. Implements a rate-limiter for password validation (locks IP after 3 failed attempts) and registers recipient user-agents to track metrics. Dispatches styled HTML templates using the Resend email service.</li>
+    <li><strong>TeamController:</strong> Manages seating allocations and checks against purchased seats. Restricts permissions based on roles (Admin, Editor, Viewer).</li>
+    <li><strong>AuditController:</strong> Intercepts operations and writes records to database logs. Exports structured user activity data to CSV format.</li>
+</ul>
+
+<h2>6.2 Frontend Compilation</h2>
+<p>
+    The frontend uses Tailwind CSS v4 and custom components compiled via Vite:
+</p>
+<pre>
+vite v7.3.1 building client environment for production...
+public/build/manifest.json             0.33 kB
+public/build/assets/app-DbYx_uRg.css  14.90 kB
+public/build/assets/app-BuG9aa18.js   37.17 kB
+</pre>
+
+<h1>7. Conclusion</h1>
+<p>
+    Keeption Vault demonstrates that privacy-by-design is achievable on a lightweight, modern web architecture. Decoupling file metadata from storage paths, utilizing plan-based automated version control, and securing shared paths with gatekeepers address the vulnerabilities of typical cloud solutions. 
+</p>
+<p>
+    The application successfully meets all objectives, providing users with a secure cloud storage alternative. Future expansions could include end-to-end client-side encryption (WebCrypto API) and payment gateways (Stripe) to support dynamic subscription upgrades.
+</p>
+
+</body>
+</html>
