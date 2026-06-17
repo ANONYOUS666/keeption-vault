@@ -1,199 +1,138 @@
-# Keeption Vault — Technical & User Documentation
+# Project Title: Keeption Vault — Secure, Encrypted Cloud Storage System
 
-Welcome to the official technical and system documentation for **Keeption Vault**, a modern, privacy-first, zero-knowledge cloud storage platform. 
-
-This document details the system design, features, system architecture, database schema, and complete installation guide for evaluators and administrators.
+### Student Information
+* **Student Name:** KINGSLEY OSEH KELVIN
+* **Student ID:** LCSMT-NGA-005-ADM-1001523
+* **Semester:** Semester 4
+* **Department:** Computer Science Engineering
 
 ---
 
 ## Table of Contents
-1. [Executive Summary](#1-executive-summary)
-2. [Target Audience & Pricing Model](#2-target-audience--pricing-model)
-3. [Core Feature Guide](#3-core-feature-guide)
-4. [System Architecture & Tech Stack](#4-system-architecture--tech-stack)
-5. [Database Schema](#5-database-schema)
-6. [Detailed Setup & Installation Guide](#6-detailed-setup--installation-guide)
-7. [System Testing & Verification](#7-system-testing--verification)
-8. [Converting this Document to Word or PDF](#8-converting-this-document-to-word-or-pdf)
+1. [Introduction](#1-introduction)
+2. [Problem Statement](#2-problem-statement)
+3. [Objectives](#3-objectives)
+4. [Methodology](#4-methodology)
+5. [System Design](#5-system-design)
+6. [Implementation Details](#6-implementation-details)
+7. [Conclusion](#7-conclusion)
+8. [Setup & Installation Guide](#8-setup--installation-guide)
+9. [Verification & Testing](#9-verification--testing)
+10. [Instructions for Exporting to PDF/Word](#10-instructions-for-exporting-to-pdfword)
 
 ---
 
-## 1. Executive Summary
-**Keeption Vault** is designed as a secure, decentralized cloud vault where users maintain absolute ownership over their files. Unlike corporate storage solutions (e.g., Google Drive or Dropbox), Keeption Vault incorporates a privacy-by-design approach. 
+## 1. Introduction
+**Keeption Vault** is a secure, responsive, and privacy-focused web-based cloud storage application. Designed on a "zero-knowledge" principles system, the application ensures that users retain complete sovereignty and ownership over their digital assets. Users can upload various file formats—such as images, videos, audio, and documents—while having full control over access parameters, revision history, and team sharing. 
 
-It handles files in an isolated environment, utilizing local disk streaming to prevent memory bottlenecks. The platform features end-to-end access rules, advanced link sharing, visual document/media previews, multi-tenant team accounts, and enterprise-grade audit trailing.
-
----
-
-## 2. Target Audience & Pricing Model
-The platform is designed to scale across three customer segments, each mapped to a specific plan:
-
-| Plan | Storage | Max File Size | Version History Window | Price | Target Audience |
-|------|---------|---------------|------------------------|-------|-----------------|
-| **Free** | 5 GB | 500 MB | 7 Days | $0/mo | Individuals wanting private basic storage |
-| **Pro** | 100 GB | 10 GB | 90 Days | $3/mo | Creators and professionals handling large files |
-| **Teams** | 500 GB (Shared) | 50 GB | 180 Days | $8/seat/mo | Small businesses and collaborative teams |
+By leveraging **Laravel 11**, **MySQL**, **Tailwind CSS**, and **Vite**, Keeption Vault provides a glassmorphic user interface that balances premium visual aesthetics with security features like single-use self-destructing links, password-protected tokens, multi-user workspace management, and enterprise-grade audit logging.
 
 ---
 
-## 3. Core Feature Guide
-
-### 🔐 Zero-Knowledge File Processing
-* Files are uploaded using a PHP stream wrapper to prevent system memory overload.
-* File structures are decoupled from the user's computer metadata. The filesystem encrypts names locally on the disk using unique UUID identifiers (e.g., `uploads/{user_id}/{uuid_original_name}`).
-
-### 📂 Nested Folder & File Management
-* **Smart Categorization**: The system automatically reads the file MIME type and extension to group uploads into **Photos**, **Videos**, **Music**, **Documents**, or **Other**.
-* **Nested Directory Tree**: Users can create unlimited subfolders, move files between directories, rename items, and delete folders recursively.
-
-### 🕐 Smart Version Control (Versioning)
-* When a user uploads a file with the same name as an existing active file, the system automatically saves the current file in the `file_versions` table and updates the main record with the new one.
-* **Auto-Purging**: Old file versions exceeding the plan's version history window (e.g., 7 days for Free, 180 days for Teams) are automatically purged during upload.
-* **One-Click Restore**: Users can browse a file's history and instantly roll back to any previous version.
-
-### 🔗 Secure Link Sharing
-Users can generate secure, tokenized sharing links (`KV-XXXXXX`) with custom safety controls:
-* **Self-Destruct**: The link automatically invalidates after a specified view count.
-* **Expiration Date**: Custom link lifetimes tailored to user preferences (up to 7 days for Pro, 30 days for Teams).
-* **Password Protection**: Access is blocked behind a password gate using `bcrypt` hashes, complete with local rate-limiting to prevent brute-force attacks.
-* **Download Toggles & Watermarking**: Option to block downloads (view only) and overlay dynamic protective watermarks.
-* **Email Sharing**: Send interactive HTML emails directly to recipients using the Resend API.
-
-### 👥 Collaborative Teams & Roles
-Teams can purchase additional seats ($8/seat) to collaborate in shared workspaces:
-* **Roles**: Administrators (full settings), Editors (upload, rename, move, delete), and Viewers (view only).
-* **Shared Folders**: Directories marked as team folders are accessible to all team members instantly.
-
-### 📋 Enterprise Audit Logs
-All critical folder actions, uploads, downloads, link creations, and admin overrides are automatically logged for team accounts.
-* **Data points tracked**: User, Action, Details, Timestamp, IP Address, and Device Type.
-* **CSV Export**: Team administrators can export the full audit history to CSV format at any time.
+## 2. Problem Statement
+The cloud storage market is dominated by centralized platforms (e.g., Google Drive, Dropbox, and OneDrive). While convenient, these platforms present significant privacy and security challenges:
+1. **Surveillance Capitalism & Data Mining**: Major services scan user files for advertising profiles and algorithmic training data without explicit, granular user consent.
+2. **Security Vulnerabilities**: High-value centralized databases are primary targets for malicious actors. If a server is compromised, user data is exposed in plain text.
+3. **Coarse Sharing Controls**: Sharing links on standard platforms generally lacks advanced security measures like rate-limited password walls, self-destruct timers, and dynamic watermarking, leading to accidental leaks of sensitive files.
+4. **Complex Team Audits**: Small businesses and teams lack lightweight, auditable, and transparent platforms to review who accessed or modified their files.
 
 ---
 
-## 4. System Architecture & Tech Stack
+## 3. Objectives
+The main objectives of the Keeption Vault project are:
+* **Establish Absolute Privacy**: Implement security measures where filenames and structure are decoupled from original metadata using UUID storage on disk.
+* **Support File Lifecycle Management**: Allow users to upload, categorize, rename, structure, search, and delete files inside recursively managed folders.
+* **Implement Intelligent Version Control**: Prevent data loss by storing previous file versions when overwriting, and allow users to restore historical revisions within a plan-based time window.
+* **Develop Secure Link Sharing**: Implement dynamic, tokenized share links featuring password verification, expiration rules, download restrictions, and access limiters.
+* **Provide Collaborative Team Workspaces**: Facilitate multi-tenant workspaces with role-based access control (Admin, Editor, Viewer) and shared folder views.
+* **Generate Traceable Activity Audits**: Record every file action (IP addresses, devices, actions) and allow administrators to export these logs to CSV format.
+
+---
+
+## 4. Methodology
+The development of Keeption Vault followed the **Agile Software Development Life Cycle (SDLC)**, focusing on iterative design, rapid prototyping, and automated verification.
+
+```mermaid
+graph LR
+    Req[Requirements Analysis] --> Design[System Design]
+    Design --> Dev[Iterative Development]
+    Dev --> Test[Automated Testing]
+    Test --> Deploy[GitHub Push & Deployment]
+```
+
+### Development Phases:
+1. **Requirements Analysis**: Identified target user plans (Free, Pro, Teams) and mapped their storage capacity and version history window constraints.
+2. **System & Database Design**: Modeled database entities to track users, files, folders, share codes, team members, and audit entries.
+3. **Iterative Development**:
+   * Developed backend business logic in Laravel (PHP 8.2).
+   * Crafted responsive views utilizing Laravel Blade templating and Tailwind CSS v4.
+   * Configured file system streams to process uploads efficiently.
+4. **Integration of Services**: Integrated **Resend API** for secure, transactional HTML share invitations.
+5. **Testing & Validation**: Wrote automated Unit and Feature test suites to verify system stability.
+
+---
+
+## 5. System Design
+
+### 5.1 Architecture Overview
+Keeption Vault is built on a Model-View-Controller (MVC) architecture, utilizing local disk storage and secure session states.
 
 ```mermaid
 graph TD
-    Client[Browser Frontend / Blade + Vite] -->|HTTPS Request| Laravel[Laravel 11 Backend]
-    Laravel -->|SQL Query| MySQL[(MySQL Database)]
-    Laravel -->|Local Stream FileIO| Storage[Local Storage Disk]
-    Laravel -->|SMTP / SMTP Secure| Resend[Resend Transactional Email API]
-    Laravel -->|Auth Middleware| Session[Session & Cookie Auth]
+    Client[Browser Frontend / Blade + Vite] -->|HTTPS Requests| Router[Laravel 11 Router]
+    Router -->|Auth Middleware| Controllers[Controllers: File, ShareCode, Team, Audit]
+    Controllers -->|Eloquent ORM| MySQL[(MySQL Database)]
+    Controllers -->|PHP Stream FileIO| Storage[Local Storage Disk]
+    Controllers -->|SMTP Secure| Resend[Resend Transactional Email API]
 ```
 
-### Backend Framework
-* **Laravel 11 (PHP 8.2+)**: Handles request routing, database query generation (Eloquent ORM), session-based security, email dispatching, and file processing.
-* **Vite**: Manages local script compiling and asset bundling.
+### 5.2 Database Schema
+The MySQL database consists of 8 interconnected tables:
 
-### Frontend
-* **Blade Templates**: Dynamic server-side rendered HTML.
-* **Tailwind CSS v4**: High-performance, modern responsive layouts.
-* **Lucide Icons**: Clean, light icon graphics used throughout the dashboard interface.
-
----
-
-## 5. Database Schema
-Keeption Vault runs on an structured MySQL schema. Below are the key tables:
-
-### `users`
-Tracks individual accounts and primary billing configurations:
-* `id` (bigint, PK)
-* `name` (varchar)
-* `email` (varchar, Unique)
-* `password` (varchar)
-* `plan` (enum: `'free'`, `'pro'`, `'teams'`)
-* `seats` (int, default `1`)
-* `teams_name` (varchar, Nullable)
-
-### `files`
-Stores file metadata and active configurations:
-* `id` (bigint, PK)
-* `user_id` (bigint, FK)
-* `folder_id` (bigint, FK, Nullable)
-* `name` (varchar)
-* `path` (varchar)
-* `mime_type` (varchar)
-* `category` (enum: `'photo'`, `'video'`, `'music'`, `'doc'`, `'other'`)
-* `size` (bigint)
-* `is_deleted` (boolean, default `false`)
-* `is_team` (boolean, default `false`)
-
-### `file_versions`
-Retains historical snapshots of modified files:
-* `id` (bigint, PK)
-* `file_id` (bigint, FK)
-* `user_id` (bigint, FK)
-* `path` (varchar)
-* `size` (bigint)
-* `version_number` (int)
-
-### `folders`
-Provides directory structure:
-* `id` (bigint, PK)
-* `user_id` (bigint, FK)
-* `parent_id` (bigint, FK, Nullable)
-* `name` (varchar)
-* `page` (varchar)
-* `is_team` (boolean, default `false`)
-
-### `share_codes`
-Tracks secure sharing configurations:
-* `id` (bigint, PK)
-* `code` (varchar, Unique)
-* `user_id` (bigint, FK)
-* `file_ids` (json)
-* `file_meta` (json)
-* `expires_at` (timestamp)
-* `max_uses` (int, Nullable)
-* `use_count` (int)
-* `password_hash` (varchar, Nullable)
-* `allow_download` (boolean)
-* `allow_reshare` (boolean)
-* `self_destruct` (boolean)
-* `watermarked` (boolean)
-* `is_active` (boolean)
-
-### `share_code_uses`
-Tracks access metrics and analytics:
-* `id` (bigint, PK)
-* `code_id` (bigint, FK)
-* `used_at` (timestamp)
-* `ip_address` (varchar)
-* `device_type` (varchar)
-* `browser_name` (varchar)
-* `downloaded` (boolean)
-
-### `team_members`
-Connects members in a multi-tenant business space:
-* `id` (bigint, PK)
-* `owner_id` (bigint, FK)
-* `user_id` (bigint, FK, Nullable)
-* `invited_email` (varchar)
-* `name` (varchar, Nullable)
-* `role` (enum: `'admin'`, `'editor'`, `'viewer'`)
-* `status` (enum: `'pending'`, `'active'`)
-
-### `audit_logs`
-Logs file system and system administrative history:
-* `id` (bigint, PK)
-* `owner_id` (bigint, FK)
-* `user_id` (bigint, FK)
-* `user_name` (varchar)
-* `action` (varchar)
-* `details` (text)
-* `ip_address` (varchar)
-* `device` (varchar)
+1. **`users`**: Manages credentials, current subscription plans, and custom workspace names.
+2. **`folders`**: Stores folder structures, page routing, and team visibility settings.
+3. **`files`**: Contains metadata, storage path, category classification, and reference folder IDs.
+4. **`file_versions`**: Stores physical files of older revisions before they are overwritten.
+5. **`share_codes`**: Manages secure tokenized sharing configurations (password, expiry, download limits).
+6. **`share_code_uses`**: Records analytics for shared link visitors (IP address, browser, device, download flag).
+7. **`team_members`**: Manages workspace invitations and access roles (Admin, Editor, Viewer).
+8. **`audit_logs`**: Logs user activities for compliance and security reviews.
 
 ---
 
-## 6. Detailed Setup & Installation Guide
+## 6. Implementation Details
+
+### 6.1 Backend Logic (Controllers)
+* **`FileController`**: Implements size validation against user subscription limits (e.g., 500MB for Free, 10GB for Pro, 50GB for Teams). File uploads are streamed directly to the local disk, renaming files to unique UUIDs to prevent directory clashes. It handles folder generation, folder deletion (recursive), and file restoration from the version history table.
+* **`ShareCodeController`**: Generates unique alphanumeric share tokens. Implements a rate-limiter for password validation (locks IP after 3 failed attempts) and registers recipient user-agents to track metrics. Dispatches styled HTML templates using the Resend email service.
+* **`TeamController`**: Manages seating allocations and checks against purchased seats. Restricts permissions based on roles (Admin, Editor, Viewer).
+* **`AuditController`**: Intercepts operations and writes records to database logs. Exports structured user activity data to CSV format.
+
+### 6.2 Frontend Compilation
+The frontend uses Tailwind CSS v4 and custom components compiled via Vite:
+```bash
+vite v7.3.1 building client environment for production...
+public/build/manifest.json             0.33 kB
+public/build/assets/app-DbYx_uRg.css  14.90 kB
+public/build/assets/app-BuG9aa18.js   37.17 kB
+```
+
+---
+
+## 7. Conclusion
+Keeption Vault demonstrates that privacy-by-design is achievable on a lightweight, modern web architecture. Decoupling file metadata from storage paths, utilizing plan-based automated version control, and securing shared paths with gatekeepers address the vulnerabilities of typical cloud solutions. 
+
+The application successfully meets all objectives, providing users with a secure cloud storage alternative. Future expansions could include end-to-end client-side encryption (WebCrypto API) and payment gateways (Stripe) to support dynamic subscription upgrades.
+
+---
+
+## 8. Setup & Installation Guide
 
 ### Prerequisites
 * **PHP 8.2 or higher**
 * **Composer** (PHP Package Manager)
 * **Node.js** (v18+) & **npm**
-* **MySQL** database server (e.g. running via XAMPP)
+* **MySQL** database server (e.g., XAMPP)
 
 ### Installation Steps
 
@@ -259,7 +198,7 @@ Logs file system and system administrative history:
 
 ---
 
-## 7. System Testing & Verification
+## 9. Verification & Testing
 The platform includes automated PHPUnit tests. To run the tests and verify that the system functions correctly, execute:
 
 ```bash
@@ -279,9 +218,9 @@ Expected Output:
 
 ---
 
-## 8. Converting this Document to Word or PDF
+## 10. Instructions for Exporting to PDF/Word
 
-To submit this document to your teacher in **PDF** or **Microsoft Word** format, you can use any of the following methods:
+To submit this document in **PDF** or **Microsoft Word** format, you can use any of the following methods:
 
 ### Option A: Export using VS Code (Highly Recommended)
 1. Install the **Markdown PDF** extension in VS Code.
